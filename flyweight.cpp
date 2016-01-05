@@ -46,13 +46,13 @@ class TreeModel
 };
 
 class EvergreenTreeModel : public TreeModel
-  {
-      
-  };
+{
+     
+};
   class DeciduousTreeModel : TreeModel
   {
         
-        }    ;
+  };
   class Tree
  {
       public:
@@ -66,26 +66,38 @@ class EvergreenTreeModel : public TreeModel
 
 enum TreeModelType
 { EVERGREEN, DECIDUOUS };
-
+/* One game object will have a map of TreeModels which will be referred by 1000's of tree objects (inside the vector) in the Game.
+We have not made the map static because.. if we have to extend the functionality where many games can run, we need
+each instance of a map for a game.
+In the new case we have add a MasterGame class that will compose Game
+*/
 class Game
 {
       vector<Tree> trees;
+      /* this is not static*/
       map<string,TreeModel*> *treeModelMap;
       public:
       Game()
       { 
+            if(treeModelMap
+                           treeModelMap = new map<string,TreeModel*>();
       }
        void addTree(Tree tree, TreeModelType treeModelType)
       {
             
              switch(treeModelType)
              {
-                case EVERGREEN : { 
-                      if(treeModelMap->find("EVERGREEN") == treeModelMap->end() )
+                case EVERGREEN : 
+                { 
+                    
+                     map<string,TreeModel*>::iterator it = treeModelMap->find("EVERGREEN");
+                      cout<<treeModelType;
+                      if(it == treeModelMap->end() )
                       {
                           TreeModel *treeModel = new EvergreenTreeModel();          
                          // treeModelMap->insert(pair<string,TreeModel> ("EVERGREEN", treeModel));                                           
                           tree.model_ = treeModel;
+                          
                       }
                       else
                       {
@@ -94,8 +106,9 @@ class Game
                       }
                       break;
                  }  
-                 case  DECIDUOUS : {
-                                            if(treeModelMap->find("DECIDUOUS") == treeModelMap->end() )
+                 case  DECIDUOUS : 
+                 {
+                      if(treeModelMap->find("DECIDUOUS") == treeModelMap->end() )
                       {
                           TreeModel *treeModel = new EvergreenTreeModel();          
                         //  treeModelMap->insert(pair<string,TreeModel> ("DECIDUOUS", treeModel));                                           
@@ -107,12 +120,11 @@ class Game
                           tree.model_ = treeModel;
                       }
                       break;
-                      }
-                      default: break;                 
+                 }
+                 default: break;                 
              }
              //tree.model_ = treeModel; 
              trees.push_back(tree);
-             
       }
       }
       ;
